@@ -1,0 +1,22 @@
+services:
+  _defaults:
+    public: true
+
+  # Dto
+  tracker.application.dto.factory:
+    class: Micro\Tracker\Task\Application\Factory\DtoFactory
+
+  tracker.application.processor.job_program_processor:
+    class: Micro\Tracker\Task\Application\Processor\JobProgramProcessor
+    arguments:
+      - '@Enqueue\JobQueue\JobRunner'
+      - '@tactician.commandbus.command.task'
+      - '@Micro\Tracker\Task\Domain\Factory\CommandFactoryInterface'
+      - '@broadway.event_dispatcher'
+    calls:
+      - [ setLogger, [ '@logger' ] ]
+    tags:
+      - { name: 'enqueue.command_subscriber', client: 'task' }
+
+  Micro\Tracker\Task\Application\Processor\JobProgramProcessor:
+    alias: tracker.application.processor.job_program_processor

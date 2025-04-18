@@ -1,0 +1,11 @@
+ARG DOCKER_IMAGE_VERSION=master
+ARG DOCKER_SERVER_HOST
+ARG DOCKER_PROJECT_PATH
+ARG DOCKER_PHP_VERSION
+
+FROM ${DOCKER_SERVER_HOST}/${DOCKER_PROJECT_PATH}/php${DOCKER_PHP_VERSION}-fpm-composer:master
+
+RUN install-php-extensions xdebug ast pcov
+RUN apk add graphviz
+
+WORKDIR /app

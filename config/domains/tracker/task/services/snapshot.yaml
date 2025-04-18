@@ -1,0 +1,19 @@
+services:
+
+  micro_module.snapshotting.snapshot.task.repository:
+    class: MicroModule\Snapshotting\Snapshot\SnapshotRepository
+    arguments:
+      - '@micro_module.snapshotting.snapshot.storage'
+      - 'Micro\Tracker\Task\Domain\Entity\TaskEntity'
+      - '@micro_module.snapshotting.event_sourcing.aggregate.factory'
+
+  micro_module.snapshotting.snapshot.user.repository:
+    class: MicroModule\Snapshotting\Snapshot\SnapshotRepository
+    arguments:
+      - '@micro_module.snapshotting.snapshot.storage'
+      - 'Micro\Tracker\Task\Domain\Entity\UserEntity'
+      - '@micro_module.snapshotting.event_sourcing.aggregate.factory'
+
+
+
+

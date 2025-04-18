@@ -1,0 +1,19 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+    public: false
+
+  micro_module.task.application.processor.command_bus.job:
+    class: MicroModule\Task\Application\Processor\JobCommandBusProcessor
+    arguments:
+      - '@Enqueue\JobQueue\JobRunner'
+      - '@tactician.commandbus.command.task'
+      - '@Micro\Tracker\Task\Domain\Factory\CommandFactoryInterface'
+      - '@broadway.event_dispatcher'
+    calls:
+      - setLogger: [ '@logger' ]
+#      - setTracer: [ '@tracing.client' ]
+#      - setIsTracingEnabled: [ '%tracing.is_enabled%' ]
+    tags:
+      - { name: 'enqueue.command_subscriber', client: 'task' }

@@ -1,0 +1,64 @@
+services:
+  test-micro-task-tracker-nginx:
+    container_name: ${CI_SERVICE_NAME}-nginx
+    hostname: ${CI_SERVICE_NAME}-nginx
+    image: ${DOCKER_SERVER_HOST}/${DOCKER_PROJECT_PATH}/nginx:${DOCKER_IMAGE_VERSION}
+    restart: always
+    volumes:
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/app:rw
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.http.routers.test-micro-task-tracker-nginx.rule=Host(`micro-task-tracker.loc`)"
+      - "traefik.http.routers.test-micro-task-tracker-nginx.entrypoints=web"
+    networks:
+      - ${DOCKER_NETWORK_NAME}
+    ports:
+      - "80:80"
+    depends_on:
+      - test-micro-task-tracker-rest
+
+  test-micro-task-tracker-rest:
+    hostname: ${CI_SERVICE_NAME}-rest
+    container_name: ${CI_SERVICE_NAME}-rest
+    image: ${DOCKER_SERVER_HOST}/${DOCKER_PROJECT_PATH}/php${DOCKER_PHP_VERSION}-fpm-dev:${DOCKER_IMAGE_VERSION}
+    command: 'php-fpm'
+    user: 1000:1000
+    volumes:
+      - ./:/app:rw
+      - ~/.composer/cache/:/.composer_cache/:rw
+      - ./.docker/php${DOCKER_PHP_VERSION}-fpm-dev/development-config.ini:/usr/local/etc/php/conf.d/development-config.ini
+    working_dir: /app
+    networks:
+      - ${DOCKER_NETWORK_NAME}
+
+  test-database:
+    image: postgres:17.4-alpine
+    hostname: ${APP_COMPANY_NAME}-database
+    container_name: ${APP_COMPANY_NAME}-database
+    ports:
+      - ${APP_DATABASE_EXT_PORT}:${APP_DATABASE_PORT}
+    volumes:
+      - postgres_data:/pgdata
+    networks:
+      - ${DOCKER_NETWORK_NAME}
+    environment:
+      POSTGRES_USER: ${APP_DATABASE_LOGIN:-postgres}
+      POSTGRES_PASSWORD: ${APP_DATABASE_PASSWORD:-postgres}
+      POSTGRES_DB: ${APP_DATABASE_NAME}
+      POSTGRES_PORT: ${APP_DATABASE_PORT}
+      PGDATA: /pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+
+networks:
+  test_net:
+    name: ${DOCKER_NETWORK_NAME}
+    driver: bridge
+
+volumes:
+  postgres_data:

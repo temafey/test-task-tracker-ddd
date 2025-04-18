@@ -1,0 +1,38 @@
+services:
+  _defaults:
+    public: true
+
+  # Services
+  tracker.infrastructure.service.data_mapper.dbal:
+    class: Micro\Tracker\Task\Infrastructure\Service\DataMapper\DbalDataMapper
+    arguments:
+      - '@base.infrastructure.service.data_mapper.types.registry'
+
+  # Repositories
+  tracker.infrastructure.repository.storage.read_model.dbal:
+    class: Micro\Tracker\Task\Infrastructure\Repository\Storage\DBALReadModelStore
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - 'tasks'
+      - 'uuid'
+      - '@tracker.infrastructure.service.data_mapper.dbal'
+
+  user.infrastructure.repository.storage.read_model.dbal:
+    class: Micro\Tracker\Task\Infrastructure\Repository\Storage\DBALReadModelStore
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - 'users'
+      - 'uuid'
+      - '@tracker.infrastructure.service.data_mapper.dbal'
+
+  tracker.infrastructure.repository.query.lite:
+    class: MicroModule\Base\Infrastructure\Repository\QueryLiteRepository
+    arguments:
+      - '@tracker.infrastructure.repository.storage.read_model.dbal'
+
+  tracker.infrastructure.repository.task:
+    class: Micro\Tracker\Task\Infrastructure\Repository\TaskRepository
+    arguments:
+      - '@enqueue.client.task.producer'
+
+

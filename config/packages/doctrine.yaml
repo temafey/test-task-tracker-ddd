@@ -1,0 +1,41 @@
+doctrine:
+  dbal:
+    connections:
+      default:
+        driver: 'pdo_pgsql'
+        server_version: '16.2'
+        charset: UTF8
+        host: '%env(APP_DATABASE_HOST)%'
+        port: '%env(APP_DATABASE_PORT)%'
+        dbname: '%env(APP_DATABASE_NAME)%'
+        user: '%env(APP_DATABASE_LOGIN)%'
+        password: '%env(APP_DATABASE_PASSWORD)%'
+        mapping_types:
+          enum: string
+    types:
+      uuid: Ramsey\Uuid\Doctrine\UuidType
+      uuid_binary: Ramsey\Uuid\Doctrine\UuidBinaryType
+      uuid_binary_ordered_time: Ramsey\Uuid\Doctrine\UuidBinaryOrderedTimeType
+  orm:
+    auto_generate_proxy_classes: '%kernel.debug%'
+    naming_strategy: doctrine.orm.naming_strategy.underscore
+    auto_mapping: true
+    enable_lazy_ghost_objects: true
+
+    mappings:
+      MicroTrackerTaskDomainReadModel:
+        type: attribute
+        dir: '%kernel.project_dir%/src/Task/Domain/ReadModel'
+        is_bundle: false
+        prefix: Micro\Tracker\Task\Domain\ReadModel
+#        alias: ReadModel
+
+#doctrine:
+#  dbal:
+#    connections:
+#      default:
+#        # DATABASE_URL would be of "mysql://db_user:db_password@127.0.0.1:3306/db_name"
+#        url: '%env(DATABASE_URL)%'
+#        wrapper_class: 'Facile\DoctrineMySQLComeBack\Doctrine\DBAL\Connection'
+#        options:
+#          x_reconnect_attempts: 3

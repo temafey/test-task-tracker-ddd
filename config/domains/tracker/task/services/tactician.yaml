@@ -1,0 +1,23 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+    public: false
+
+  tactician.command_tracker.middleware.tracer:
+    class: MicroModule\Base\Application\Tracing\TracerMiddleware
+    arguments:
+      - '@tactician.commandbus.command.task.handler.locator'
+      - '@tactician.handler.method_name_inflector.handle'
+    calls:
+      - setTracer: ['@tracing.client']
+      - setIsTracingEnabled: ['%tracing.is_enabled%']
+
+  tactician.query_tracker.middleware.tracer:
+    class: MicroModule\Base\Application\Tracing\TracerMiddleware
+    arguments:
+      - '@tactician.commandbus.query.tracker.handler.locator'
+      - '@tactician.handler.method_name_inflector.handle'
+    calls:
+      - setTracer: [ '@tracing.client' ]
+      - setIsTracingEnabled: [ '%tracing.is_enabled%' ]

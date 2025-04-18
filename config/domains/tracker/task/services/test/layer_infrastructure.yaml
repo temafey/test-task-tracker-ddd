@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    public: true
+
+  # Repositories
+  tracker.infrastructure.repository.storage.read_model.dbal: '@tracker.infrastructure.repository.storage.read_model.in_memory'
+
+  tracker.infrastructure.repository.storage.read_model.in_memory:
+    class: MicroModule\Base\Infrastructure\Repository\InMemoryReadModelStore
+    arguments:
+      - 'uuid'

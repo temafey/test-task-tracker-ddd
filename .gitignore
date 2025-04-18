@@ -1,0 +1,76 @@
+###> symfony/framework-bundle ###
+.env.local
+.env.local.php
+.env.*.local
+.env.dist
+
+var/cache/*
+!var/cache/.gitkeep
+var/fixture/*
+!var/fixture/.gitkeep
+var/log/*
+!var/log/.gitkeep
+var/storage/read/*
+!var/storage/read/.gitkeep
+var/storage/write/*
+!var/storage/write/.gitkeep
+
+
+vendor/
+###< symfony/framework-bundle ###
+
+###> PhpStorm project profile ###
+.idea/
+###< PhpStorm project profile ###
+
+###> phpunit/phpunit ###
+phpunit.xml
+###< phpunit/phpunit ###
+
+###> friendsofphp/php-cs-fixer ###
+.php_cs.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> squizlabs/php_codesniffer ###
+.phpcs-cache
+phpcs.xml
+###< squizlabs/php_codesniffer ###
+
+###> sensiolabs-de/deptrac ###
+.deptrac.cache
+###< sensiolabs-de/deptrac ###
+
+# Build data
+build/
+
+###> Phpunit ###
+bin/.phpunit
+phpunit.result.cache
+.phpunit.result.cache
+infection/
+###< Phpunit ###
+adapter_program_response.json
+
+###> sensiolabs-de/deptrac-shim ###
+/.deptrac.cache
+###< sensiolabs-de/deptrac-shim ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> vim ###
+.backup
+*.swp
+*.bak
+*.tmp
+###< vim ###
+
+public/bundles
+*.tgz
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

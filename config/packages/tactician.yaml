@@ -1,0 +1,17 @@
+tactician:
+  default_bus: command.task
+  commandbus:
+
+    command.task:
+      middleware:
+        - tactician.middleware.logger
+        - tactician.middleware.event
+        - tactician.commandbus.command.task.middleware.command_handler
+
+    query.task:
+      middleware:
+        - tactician.middleware.logger
+        - tactician.middleware.event
+        - tactician.commandbus.query.task.middleware.command_handler
+
+

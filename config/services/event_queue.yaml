@@ -1,0 +1,39 @@
+services:
+
+  queue_event_bus.global:
+    class: MicroModule\EventQueue\Application\EventHandling\QueueEventBus
+    arguments:
+      - '@broadway.event_handling.event_bus'
+      - '@event_queue.application.event_handling.queue_event.producer'
+      - '@event_queue.application.event_handling.queue_event.producer.global'
+
+  event_queue.application.event_handling.queue_event.producer:
+    class: MicroModule\EventQueue\Application\EventHandling\QueueEventProducer
+    arguments:
+      - '@enqueue.client.queueevent.producer'
+      - 'micro-platform.task.queueevent'
+
+  event_queue.application.event_handling.queue_event.producer.global:
+    class: MicroModule\EventQueue\Application\EventHandling\QueueEventProducer
+    arguments:
+      - '@enqueue.client.global.task.producer'
+      - 'micro-platform.acl.task.queueevent'
+
+  event_queue.application.event_handling.event_factory:
+    class: MicroModule\EventQueue\Application\EventHandling\EventFactory
+    arguments:
+      - {
+        Micro\Tracker\Task\Domain\Event\TaskAssignedEvent: 'Micro\Tracker\Task\Domain\Event\TaskAssignedEvent',
+        Micro\Tracker\Task\Domain\Event\TaskCreatedEvent: 'Micro\Tracker\Task\Domain\Event\TaskCreatedEvent',
+        Micro\Tracker\Task\Domain\Event\TaskStatusUpdatedEvent: 'Micro\Tracker\Task\Domain\Event\TaskStatusUpdatedEvent',
+        Micro\Tracker\Task\Domain\Event\UserCreatedEvent: 'Micro\Tracker\Task\Domain\Event\UserCreatedEvent',
+        Micro\Tracker\Task\Domain\Event\UserUpdatedEvent: 'Micro\Tracker\Task\Domain\Event\UserUpdatedEvent',
+      }
+
+  Micro\Tracker\Task\Application\Processor\QueueEventProcessor:
+    arguments:
+      - '@broadway.event_handling.event_bus'
+      - '@event_queue.application.event_handling.event_factory'
+      - '@logger'
+    tags:
+      - { name: 'enqueue.topic_subscriber', client: 'queueevent' }
