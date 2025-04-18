@@ -92,6 +92,26 @@ HTTP Request → Controller → Command/Query Bus → Handler → Repository →
     - Creates optimized read models from events
     - Improves query performance
 
+## API Versioning
+
+The service implements a comprehensive API versioning approach:
+
+1. **URL-based versioning**:
+    - All API endpoints are prefixed with the version: `/api/v1/...` or `/api/v2/...`
+    - This ensures clear separation between API versions
+
+2. **Feature differences between versions**:
+    - V1: Base functionality (create/read/update tasks and users)
+    - V2: Enhanced features (priorities, due dates, advanced filtering, improved response format with HATEOAS)
+
+3. **Version-specific documentation**:
+    - Each API version has its own documentation endpoint
+    - V1: `/api/v1/doc`
+    - V2: `/api/v2/doc`
+    - Latest version: `/api/doc`
+
+For backward compatibility, we maintain support for both versions.
+
 ## Project Structure
 
 ```
@@ -129,6 +149,8 @@ HTTP Request → Controller → Command/Query Bus → Handler → Repository →
 │       └── Presentation/   # Presentation layer components
 │           ├── Cli/
 │           └── Rest/
+│               ├── V1/    # API Version 1 controllers
+│               └── V2/    # API Version 2 controllers
 └── tests/                  # Test files
 ```
 
@@ -158,6 +180,12 @@ Get documentation in Swagger format (open in browser):
 
 `http://localhost/api/doc/`
 
+Get documentation for a specific API version:
+
+`http://localhost/api/v1/doc/` (API v1)
+
+`http://localhost/api/v2/doc/` (API v2)
+
 Get documentation in a user-friendly format (open in browser):
 
 `http://localhost/api/docs/`
@@ -176,7 +204,7 @@ Get API documentation in YAML format:
 
 Create a task:
 ```bash
-curl --location --request POST 'http://localhost/api/tasks' \
+curl --location --request POST 'http://localhost/api/v1/tasks' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --form 'title="task 1"' \
 --form 'description="task description 1"' \
@@ -185,7 +213,7 @@ curl --location --request POST 'http://localhost/api/tasks' \
 
 Update task status:
 ```bash
-curl --location --request PUT 'http://localhost/api/tasks/{uuid}/status' \
+curl --location --request PUT 'http://localhost/api/v1/tasks/{uuid}/status' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data '{
   "status": "in_progress"
@@ -194,7 +222,7 @@ curl --location --request PUT 'http://localhost/api/tasks/{uuid}/status' \
 
 Assign task to user:
 ```bash
-curl --location --request PUT 'http://localhost/api/tasks/{uuid}/assign' \
+curl --location --request PUT 'http://localhost/api/v1/tasks/{uuid}/assign' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data '{
   "assigneeId": "{userUuid}"
@@ -203,24 +231,24 @@ curl --location --request PUT 'http://localhost/api/tasks/{uuid}/assign' \
 
 Get all tasks:
 ```bash
-curl --location 'http://localhost/api/tasks'
+curl --location 'http://localhost/api/v1/tasks'
 ```
 
 Get task by ID:
 ```bash
-curl --location 'http://localhost/api/tasks/{uuid}'
+curl --location 'http://localhost/api/v1/tasks/{uuid}'
 ```
 
 Get tasks with filters:
 ```bash
-curl --location 'http://localhost/api/tasks?assigneeId=1f01bca9-7e99-68ae-a1c2-decba94b787f&status=todo'
+curl --location 'http://localhost/api/v1/tasks?assigneeId=1f01bca9-7e99-68ae-a1c2-decba94b787f&status=todo'
 ```
 
 ### Users
 
 Create a user:
 ```bash
-curl --location --request POST 'http://localhost/api/users' \
+curl --location --request POST 'http://localhost/api/v1/users' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --form 'name=\"user 1\"' \
 --form 'email=\"user1@email.com\"'
@@ -228,7 +256,7 @@ curl --location --request POST 'http://localhost/api/users' \
 
 Get users with filters:
 ```bash
-curl --location 'http://localhost/api/users?name=user%201&email=user1%40email.com'
+curl --location 'http://localhost/api/v1/users?name=user%201&email=user1@email.com'
 ```
 
 ## Project Setup
