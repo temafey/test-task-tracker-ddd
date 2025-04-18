@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Handles task retrieval with enhanced filtering and response format
  */
 #[ApiVersion('v2')]
-#[Route('/api/v2/tasks')]
+#[Route('/tasks')]
 class TaskQueriesController extends AbstractApiController
 {
     /**

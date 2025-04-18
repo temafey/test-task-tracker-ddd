@@ -11,6 +11,7 @@ use Micro\Tracker\Task\Infrastructure\Api\ApiVersion;
 use Micro\Tracker\Task\Presentation\Rest\AbstractApiController;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Handles user creation operations
  */
 #[ApiVersion('v1')]
-#[Route('/api/v1/users')]
+#[Route('/users')]
 class UserCommandsController extends AbstractApiController
 {
     /**
@@ -30,7 +31,7 @@ class UserCommandsController extends AbstractApiController
      * @param CommandFactoryInterface $commandFactory Factory for creating commands
      */
     public function __construct(
-        private readonly CommandBus $commandBus,
+        #[Autowire(service: 'tactician.commandbus.command.task')] protected commandBus $commandBus,
         private readonly CommandFactoryInterface $commandFactory
     ) {
     }
@@ -51,6 +52,18 @@ class UserCommandsController extends AbstractApiController
     #[OA\RequestBody(
         description: "User data",
         content: new OA\JsonContent(ref: new Model(type: UserDto::class))
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        description: 'User name',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'email',
+        description: 'User email',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'email')
     )]
     #[OA\Tag(name: 'user-commands')]
     public function createAction(

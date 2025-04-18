@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Handles task operations with enhanced features
  */
 #[ApiVersion('v2')]
-#[Route('/api/v2/tasks')]
+#[Route('/tasks')]
 class TaskCommandsController extends AbstractApiController
 {
     /**
@@ -70,6 +70,42 @@ class TaskCommandsController extends AbstractApiController
             new OA\Property(property: "priority", type: "string", enum: ["low", "medium", "high"]),
             new OA\Property(property: "dueDate", type: "string", format: "date-time")
         ])
+    )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Task title',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'description',
+        description: 'Task description',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'Task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'assigneeId',
+        description: 'UUID of task assignee',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+    )]
+    #[OA\Parameter(
+        name: 'priority',
+        description: 'Task priority level',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["low", "medium", "high"])
+    )]
+    #[OA\Parameter(
+        name: 'dueDate',
+        description: 'Task due date',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'date-time')
     )]
     #[OA\Tag(name: 'task-commands')]
     public function createAction(
@@ -123,7 +159,55 @@ class TaskCommandsController extends AbstractApiController
             new OA\Property(property: "comment", type: "string", description: "Optional comment about the status change")
         ])
     )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Task title',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'description',
+        description: 'Task description',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'Task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'assigneeId',
+        description: 'UUID of task assignee',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+    )]
+    #[OA\Parameter(
+        name: 'priority',
+        description: 'Task priority level',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["low", "medium", "high"])
+    )]
+    #[OA\Parameter(
+        name: 'dueDate',
+        description: 'Task due date',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'date-time')
+    )]
     #[OA\Tag(name: 'task-commands')]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'New task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'comment',
+        description: 'Optional comment about the status change',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
     public function updateStatusAction(
         string $uuid,
         #[MapRequestPayload] TaskDto $taskDto,
@@ -180,7 +264,49 @@ class TaskCommandsController extends AbstractApiController
             new OA\Property(property: "priority", type: "string", enum: ["low", "medium", "high"])
         ])
     )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Task title',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'description',
+        description: 'Task description',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'Task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'assigneeId',
+        description: 'UUID of task assignee',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+    )]
+    #[OA\Parameter(
+        name: 'priority',
+        description: 'Task priority level',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["low", "medium", "high"])
+    )]
+    #[OA\Parameter(
+        name: 'dueDate',
+        description: 'Task due date',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'date-time')
+    )]
     #[OA\Tag(name: 'task-commands')]
+    #[OA\Parameter(
+        name: 'priority',
+        description: 'Task priority level',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["low", "medium", "high"])
+    )]
     public function updatePriorityAction(
         string $uuid,
         #[MapRequestPayload] TaskDto $taskDto
@@ -229,7 +355,49 @@ class TaskCommandsController extends AbstractApiController
             new OA\Property(property: "dueDate", type: "string", format: "date-time")
         ])
     )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Task title',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'description',
+        description: 'Task description',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'Task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'assigneeId',
+        description: 'UUID of task assignee',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+    )]
+    #[OA\Parameter(
+        name: 'priority',
+        description: 'Task priority level',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["low", "medium", "high"])
+    )]
+    #[OA\Parameter(
+        name: 'dueDate',
+        description: 'Task due date',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'date-time')
+    )]
     #[OA\Tag(name: 'task-commands')]
+    #[OA\Parameter(
+        name: 'dueDate',
+        description: 'Task due date',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'date-time')
+    )]
     public function setDueDateAction(
         string $uuid,
         #[MapRequestPayload] TaskDto $taskDto
@@ -286,7 +454,60 @@ class TaskCommandsController extends AbstractApiController
             ))
         ])
     )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Task title',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'description',
+        description: 'Task description',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'Task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'assigneeId',
+        description: 'UUID of task assignee',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+    )]
+    #[OA\Parameter(
+        name: 'priority',
+        description: 'Task priority level',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["low", "medium", "high"])
+    )]
+    #[OA\Parameter(
+        name: 'dueDate',
+        description: 'Task due date',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'date-time')
+    )]
     #[OA\Tag(name: 'task-commands')]
+    #[OA\Parameter(
+        name: 'tasks',
+        description: 'Array of task updates',
+        in: 'query',
+        schema: new OA\Schema(
+            type: 'array',
+            items: new OA\Items(
+                type: 'object',
+                properties: [
+                    new OA\Property(property: "uuid", type: "string", format: "uuid"),
+                    new OA\Property(property: "status", type: "string", nullable: true),
+                    new OA\Property(property: "priority", type: "string", nullable: true),
+                    new OA\Property(property: "assigneeId", type: "string", format: "uuid", nullable: true)
+                ]
+            )
+        )
+    )]
     public function bulkUpdateAction(Request $request): JsonResponse
     {
         $tasks = $request->request->all()['tasks'] ?? [];

@@ -11,6 +11,7 @@ use Micro\Tracker\Task\Infrastructure\Api\ApiVersion;
 use Micro\Tracker\Task\Presentation\Rest\AbstractApiController;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Handles user retrieval operations
  */
 #[ApiVersion('v1')]
-#[Route('/api/v1/users')]
+#[Route('/users')]
 class UserQueriesController extends AbstractApiController
 {
     /**
@@ -30,7 +31,7 @@ class UserQueriesController extends AbstractApiController
      * @param QueryFactoryInterface $queryFactory Factory for creating queries
      */
     public function __construct(
-        private readonly CommandBus $queryBus,
+        #[Autowire(service: 'tactician.commandbus.query.task')] protected commandBus $queryBus,
         private readonly QueryFactoryInterface $queryFactory
     ) {
     }
@@ -106,6 +107,12 @@ class UserQueriesController extends AbstractApiController
         description: 'User not found'
     )]
     #[OA\Tag(name: 'user-queries')]
+    #[OA\Parameter(
+        name: 'email',
+        description: 'Filter by email',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'email')
+    )]
     public function getOneAction(string $uuid): JsonResponse
     {
         $userDto = UserDto::denormalize([

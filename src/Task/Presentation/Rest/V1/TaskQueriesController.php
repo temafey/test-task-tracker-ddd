@@ -11,6 +11,7 @@ use Micro\Tracker\Task\Infrastructure\Api\ApiVersion;
 use Micro\Tracker\Task\Presentation\Rest\AbstractApiController;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Handles task retrieval operations
  */
 #[ApiVersion('v1')]
-#[Route('/api/v1/tasks')]
+#[Route('/tasks')]
 class TaskQueriesController extends AbstractApiController
 {
     /**
@@ -30,7 +31,7 @@ class TaskQueriesController extends AbstractApiController
      * @param QueryFactoryInterface $queryFactory Factory for creating queries
      */
     public function __construct(
-        private readonly CommandBus $queryBus,
+        #[Autowire(service: 'tactician.commandbus.query.task')] protected commandBus $queryBus,
         private readonly QueryFactoryInterface $queryFactory
     ) {
     }

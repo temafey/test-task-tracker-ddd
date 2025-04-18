@@ -15,13 +15,13 @@ $SYMFONY_PATH = [
     'index' => '/app/public/index.php',
     'root' => '/app/public'
 ];
-$curlCommand = "curl --location 'http://localhost/api/tasks' \
+$curlCommand = "curl --location 'http://localhost/api/v1/tasks' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --form 'title=\"task 1\"' \
 --form 'description=\"task description 1\"' \
 --form 'status=\"todo\"'";
 
-//$curlCommand = "curl --location 'http://localhost/api/users' \
+//$curlCommand = "curl --location 'http://localhost/api/v1/users' \
 //--header 'Content-Type: application/x-www-form-urlencoded' \
 //--form 'name=\"user 1\"' \
 //--form 'email=\"user1@email.com\"'";
@@ -30,33 +30,33 @@ $uuidTask = "";
 $uuidUser = "";
 
 //
-//$curlCommand = "curl --location --request PUT 'http://localhost/api/tasks/".$uuidTask."/status' \
+//$curlCommand = "curl --location --request PUT 'http://localhost/api/v1/tasks/".$uuidTask."/status' \
 //--header 'Content-Type: application/x-www-form-urlencoded' \
 //--data '{
 //  \"status\": \"in_progress\"
 //}'";
 //
-//$curlCommand = "curl --location --request PUT 'http://localhost/api/tasks/".$uuidTask."/status' \
+//$curlCommand = "curl --location --request PUT 'http://localhost/api/v1/tasks/".$uuidTask."/status' \
 //--header 'Content-Type: application/x-www-form-urlencoded' \
 //--data '{
 //  \"status\": \"done\"
 //}'";
 //
-//$curlCommand = "curl --location --request PUT 'http://localhost/api/tasks/".$uuidTask."/assign' \
+//$curlCommand = "curl --location --request PUT 'http://localhost/api/v1/tasks/".$uuidTask."/assign' \
 //--header 'Content-Type: application/x-www-form-urlencoded' \
 //--data '{
 //  \"assigneeId\": \"".$uuidUser."\"
 //}'";
 //
-//$curlCommand = "curl --location 'http://localhost/api/users' \
+//$curlCommand = "curl --location 'http://localhost/api/v1/users' \
 //--header 'Content-Type: application/x-www-form-urlencoded' \
 //--form 'name=\"user 3\"' \
 //--form 'email=\"user3@email.com\"'";
 //
-//$curlCommand = "curl --location 'http://localhost/api/tasks'";
-//$curlCommand = "curl --location 'http://localhost/api/tasks?assigneeId=1f01bca9-7e99-68ae-a1c2-decba94b787f&status=todo'";
-//$curlCommand = "curl --location 'http://localhost/api/tasks/1f01bce5-fdc5-6650-a656-decba94b787f'";
-//$curlCommand = "curl --location 'http://localhost/api/users?name=user%201&email=user1%40email.com'";
+//$curlCommand = "curl --location 'http://localhost/api/v1/tasks'";
+//$curlCommand = "curl --location 'http://localhost/api/v1/tasks?assigneeId=1f01bca9-7e99-68ae-a1c2-decba94b787f&status=todo'";
+//$curlCommand = "curl --location 'http://localhost/api/v1/tasks/1f01bce5-fdc5-6650-a656-decba94b787f'";
+//$curlCommand = "curl --location 'http://localhost/api/v1/users?name=user%201&email=user1%40email.com'";
 
 $parsedCurl = parseCurlCommand($curlCommand);
 emulateHttpRequest($parsedCurl, $SYMFONY_PATH);

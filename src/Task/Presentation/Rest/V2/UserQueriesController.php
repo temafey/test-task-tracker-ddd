@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Handles user retrieval with enhanced filtering and response format
  */
 #[ApiVersion('v2')]
-#[Route('/api/v2/users')]
+#[Route('/users')]
 class UserQueriesController extends AbstractApiController
 {
     /**
@@ -165,6 +165,12 @@ class UserQueriesController extends AbstractApiController
     )]
     #[OA\Parameter(name: 'includeTasks', description: 'Include assigned tasks', in: 'query', schema: new OA\Schema(type: 'boolean', default: false))]
     #[OA\Tag(name: 'user-queries')]
+    #[OA\Parameter(
+        name: 'email',
+        description: 'Filter by email',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'email')
+    )]
     public function getOneAction(
         string $uuid,
         Request $request

@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Handles user management operations with enhanced features
  */
 #[ApiVersion('v2')]
-#[Route('/api/v2/users')]
+#[Route('/users')]
 class UserCommandsController extends AbstractApiController
 {
     /**
@@ -66,6 +66,30 @@ class UserCommandsController extends AbstractApiController
             new OA\Property(property: "role", type: "string", enum: ["user", "manager", "admin"]),
             new OA\Property(property: "avatarUrl", type: "string", nullable: true)
         ])
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        description: 'User name',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'email',
+        description: 'User email',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'email')
+    )]
+    #[OA\Parameter(
+        name: 'role',
+        description: 'User role',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["user", "manager", "admin"])
+    )]
+    #[OA\Parameter(
+        name: 'avatarUrl',
+        description: 'User avatar URL',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', nullable: true)
     )]
     #[OA\Tag(name: 'user-commands')]
     public function createAction(
@@ -116,7 +140,55 @@ class UserCommandsController extends AbstractApiController
             new OA\Property(property: "avatarUrl", type: "string", nullable: true)
         ])
     )]
+    #[OA\Parameter(
+        name: 'name',
+        description: 'User name',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'email',
+        description: 'User email',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'email')
+    )]
+    #[OA\Parameter(
+        name: 'role',
+        description: 'User role',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["user", "manager", "admin"])
+    )]
+    #[OA\Parameter(
+        name: 'avatarUrl',
+        description: 'User avatar URL',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', nullable: true)
+    )]
     #[OA\Tag(name: 'user-commands')]
+    #[OA\Parameter(
+        name: 'name',
+        description: 'Updated user name',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', nullable: true)
+    )]
+    #[OA\Parameter(
+        name: 'email',
+        description: 'Updated user email',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'email', nullable: true)
+    )]
+    #[OA\Parameter(
+        name: 'role',
+        description: 'Updated user role',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["user", "manager", "admin"], nullable: true)
+    )]
+    #[OA\Parameter(
+        name: 'avatarUrl',
+        description: 'Updated user avatar URL',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', nullable: true)
+    )]
     public function updateAction(
         string $uuid,
         #[MapRequestPayload] UserDto $userDto
@@ -165,7 +237,37 @@ class UserCommandsController extends AbstractApiController
             new OA\Property(property: "role", type: "string", enum: ["user", "manager", "admin"])
         ])
     )]
+#[OA\Parameter(
+    name: 'name',
+    description: 'User name',
+    in: 'query',
+    schema: new OA\Schema(type: 'string')
+)]
+#[OA\Parameter(
+    name: 'email',
+    description: 'User email',
+    in: 'query',
+    schema: new OA\Schema(type: 'string', format: 'email')
+)]
+#[OA\Parameter(
+    name: 'role',
+    description: 'User role',
+    in: 'query',
+    schema: new OA\Schema(type: 'string', enum: ["user", "manager", "admin"])
+)]
+#[OA\Parameter(
+    name: 'avatarUrl',
+    description: 'User avatar URL',
+    in: 'query',
+    schema: new OA\Schema(type: 'string', nullable: true)
+)]
     #[OA\Tag(name: 'user-commands')]
+#[OA\Parameter(
+    name: 'role',
+    description: 'New user role',
+    in: 'query',
+    schema: new OA\Schema(type: 'string', enum: ["user", "manager", "admin"])
+)]
     public function updateRoleAction(
         string $uuid,
         Request $request

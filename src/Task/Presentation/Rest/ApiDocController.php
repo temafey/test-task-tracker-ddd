@@ -30,7 +30,7 @@ readonly class ApiDocController
     /**
      * API V1 Documentation
      */
-    #[Route('/api/v1/doc', name: 'api_v1_doc')]
+    #[Route('/api/v1/doc', name: 'api_v1_doc', methods: ['GET'])]
     public function docV1(Request $request): Response
     {
         return $this->docController->__invoke($request, 'v1');
@@ -39,7 +39,7 @@ readonly class ApiDocController
     /**
      * API V2 Documentation
      */
-    #[Route('/api/v2/doc', name: 'api_v2_doc')]
+    #[Route('/api/v2/doc', name: 'api_v2_doc', methods: ['GET'])]
     public function docV2(Request $request): Response
     {
         return $this->docController->__invoke($request, 'v2');
@@ -48,7 +48,7 @@ readonly class ApiDocController
     /**
      * Latest API Documentation
      */
-    #[Route('/api/doc', name: 'api_latest_doc')]
+    #[Route('/api/doc', name: 'api_latest_doc', methods: ['GET'])]
     public function docLatest(Request $request): Response
     {
         $latestVersion = $this->versionResolver->getLatestVersion();

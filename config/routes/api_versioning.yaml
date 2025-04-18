@@ -12,6 +12,6 @@ api_v2:
     type: attribute
     prefix: /api/v2
 
-api_documentation:
+custom_api_documentation:
     resource: ../../src/Task/Presentation/Rest/ApiDocController.php
     type: attribute

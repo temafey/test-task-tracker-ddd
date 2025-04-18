@@ -11,6 +11,7 @@ use Micro\Tracker\Task\Infrastructure\Api\ApiVersion;
 use Micro\Tracker\Task\Presentation\Rest\AbstractApiController;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * Handles task creation, status updates, and assignment
  */
 #[ApiVersion('v1')]
-#[Route('/api/v1/tasks')]
+#[Route('/tasks')]
 class TaskCommandsController extends AbstractApiController
 {
     /**
@@ -30,7 +31,7 @@ class TaskCommandsController extends AbstractApiController
      * @param CommandFactoryInterface $commandFactory Factory for creating commands
      */
     public function __construct(
-        private readonly CommandBus $commandBus,
+        #[Autowire(service: 'tactician.commandbus.command.task')] protected commandBus $commandBus,
         private readonly CommandFactoryInterface $commandFactory
     ) {
     }
@@ -51,6 +52,30 @@ class TaskCommandsController extends AbstractApiController
     #[OA\RequestBody(
         description: "Task data",
         content: new OA\JsonContent(ref: new Model(type: TaskDto::class))
+    )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Task title',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'description',
+        description: 'Task description',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'Task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'assignee_id',
+        description: 'UUID of task assignee',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
     )]
     #[OA\Tag(name: 'task-commands')]
     public function createAction(
@@ -86,7 +111,37 @@ class TaskCommandsController extends AbstractApiController
             new OA\Property(property: "status", type: "string", enum: ["todo", "in_progress", "done"]),
         ])
     )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Task title',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'description',
+        description: 'Task description',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'Task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'assignee_id',
+        description: 'UUID of task assignee',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+    )]
     #[OA\Tag(name: 'task-commands')]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'New task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
     public function updateStatusAction(
         string $uuid,
         #[MapRequestPayload] TaskDto $taskDto
@@ -125,7 +180,37 @@ class TaskCommandsController extends AbstractApiController
             new OA\Property(property: "assigneeId", type: "string", format: "uuid"),
         ])
     )]
+    #[OA\Parameter(
+        name: 'title',
+        description: 'Task title',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'description',
+        description: 'Task description',
+        in: 'query',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'status',
+        description: 'Task status',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', enum: ["todo", "in_progress", "done"])
+    )]
+    #[OA\Parameter(
+        name: 'assignee_id',
+        description: 'UUID of task assignee',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+    )]
     #[OA\Tag(name: 'task-commands')]
+    #[OA\Parameter(
+        name: 'assigneeId',
+        description: 'UUID of the user to assign the task to',
+        in: 'query',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+    )]
     public function assignAction(
         string $uuid,
         #[MapRequestPayload] TaskDto $taskDto
