@@ -1,9 +1,20 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: Task Tracker
-            description: Task Tracker API service, where users can create and manage tasks
+            title: Task Tracker API
+            description: Task Tracker API service
             version: 1.0.0
-    areas: # to filter documented areas
-        path_patterns: # an array of regexps (document only routes under /api, except /api/doc)
-            - ^/api(?!/doc$)
+        areas:
+            path_patterns:
+                - ^/api/v1(?!/doc$)
+
+        # Add a separate section for v2
+        v2:
+            documentation:
+                info:
+                    title: Task Tracker API (V2)
+                    description: Task Tracker API service - Version 2
+                    version: 2.0.0
+            areas:
+                path_patterns:
+                    - ^/api/v2(?!/doc$)

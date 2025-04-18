@@ -2,23 +2,36 @@ NelmioApiDocBundle:
   resource: "@NelmioApiDocBundle/config/routing/swaggerui.xml"
   prefix:   /api/doc
 
-app.swagger_ui:
-  path: /api/doc
-  methods: GET
-  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+#app.swagger_ui:
+#  path: /api/doc
+#  methods: GET
+#  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+#
+#app.redocly:
+#  path: /api/docs
+#  methods: GET
+#  defaults: { _controller: nelmio_api_doc.controller.redocly }
+#
+#app.swagger:
+#  path: /api/doc.json
+#  methods: GET
+#  defaults: { _controller: nelmio_api_doc.controller.swagger }
+#
+#app.swagger_yaml:
+#  path: /api/doc.yaml
+#  methods: GET
+#  defaults: { _controller: nelmio_api_doc.controller.swagger_yaml }
 
-app.redocly:
-  path: /api/docs
-  methods: GET
-  defaults: { _controller: nelmio_api_doc.controller.redocly }
+api_v1:
+  resource:
+    path: ../src/Task/Presentation/Rest/V1/
+    namespace: Micro\Tracker\Task\Presentation\Rest\V1
+  type: attribute
+  prefix: /api/v1
 
-app.swagger:
-  path: /api/doc.json
-  methods: GET
-  defaults: { _controller: nelmio_api_doc.controller.swagger }
-
-app.swagger_yaml:
-  path: /api/doc.yaml
-  methods: GET
-  defaults: { _controller: nelmio_api_doc.controller.swagger_yaml }
-
+api_v2:
+  resource:
+    path: ../src/Task/Presentation/Rest/V2/
+    namespace: Micro\Tracker\Task\Presentation\Rest\V2
+  type: attribute
+  prefix: /api/v2

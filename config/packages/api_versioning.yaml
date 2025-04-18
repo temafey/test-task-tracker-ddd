@@ -1,0 +1,12 @@
+services:
+    # API versioning services
+    Micro\Tracker\Task\Infrastructure\Api\ApiVersionResolver:
+        arguments:
+            $supportedVersions: ['v1', 'v2']
+            $defaultVersion: 'v1'
+
+    Micro\Tracker\Task\Infrastructure\EventListener\ApiVersionListener:
+        arguments:
+            $versionResolver: '@Micro\Tracker\Task\Infrastructure\Api\ApiVersionResolver'
+        tags:
+            - { name: kernel.event_subscriber }

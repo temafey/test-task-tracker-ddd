@@ -1,0 +1,17 @@
+api_v1:
+    resource:
+        path: ../../src/Task/Presentation/Rest/V1/
+        namespace: Micro\Tracker\Task\Presentation\Rest\V1
+    type: attribute
+    prefix: /api/v1
+
+api_v2:
+    resource:
+        path: ../../src/Task/Presentation/Rest/V2/
+        namespace: Micro\Tracker\Task\Presentation\Rest\V2
+    type: attribute
+    prefix: /api/v2
+
+api_documentation:
+    resource: ../../src/Task/Presentation/Rest/ApiDocController.php
+    type: attribute
